@@ -1,0 +1,30 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+|  \\    /   O peration     | Version:  plus                                  |  
+|   \\  /    A nd           | Web:      www.OpenFOAM.com                      |
+     \\/     M anipulation  |
+-------------------------------------------------------------------------------
+Description
+    Writes graph data for specified fields along a line, specified by start
+    and end points.
+
+\*---------------------------------------------------------------------------*/
+
+// start   (1.079100888e-3 4.82e-3 0);
+// end     (31.38968374e-3 4.82e-3 0);
+
+start   (2.163084341e-3 7.32e-3 0);
+end     (0.050614 7.32e-3 0);
+fields	(T p);
+
+// Sampling and I/O settings
+#includeEtc "caseDicts/postProcessing/graphs/netSampleDictWallSampling.cfg"
+
+// Override settings here, e.g.
+// setConfig { type midPoint; }
+
+// Must be last entry
+#includeEtc "caseDicts/postProcessing/graphs/netGraph.cfg"
+
+// ************************************************************************* //
