@@ -1,0 +1,177 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  plus                                  |
+|   \\  /    A nd           | Web:      www.OpenFOAM.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      T;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 0 0 1 0 0 0];
+
+internalField   uniform 0;
+
+boundaryField
+{
+    inlet
+    {
+        type            fixedValue;
+        value           uniform 1;
+    }
+
+    outlet
+    {
+       // type            fixedValue;
+       // value           uniform 0; 
+        type            zeroGradient;
+    }
+
+
+    leakyWallA
+    {	
+		type            codedMixed;
+        refValue        uniform 0;
+        refGradient     uniform 0;
+        valueFraction   uniform 0;
+        name            gradTA;
+        code            
+        #{
+			#include<stdio.h>
+	  		const fvPatch& boundaryPatch = patch(); 
+          	const vectorField& Cf = boundaryPatch.Cf(); 
+			double data[500];
+			double scale, x0;
+          	FILE *fp=NULL;
+          	fp=fopen("./gradTA.txt","r");
+          	scale = 0.103527618 * 1e-3;
+          	x0 = -0.1802603168e-3;
+          	for(int i=0;i!=500;++i)
+          	{
+          		fscanf(fp, "%lf", &data[i]);
+          	}
+   			fclose(fp);			
+			
+          	forAll(Cf, faceI)
+          	{
+          		scalar x=boundaryPatch.Cf()[faceI].x();
+          		this->refGrad()[faceI]=data[(int)((x-x0)/scale)];
+          	}
+		#};
+	}
+
+    leakyWallB
+    {
+		type            codedMixed;
+        refValue        uniform 0;
+        refGradient     uniform 0;
+        valueFraction   uniform 0;
+        name            gradTB;
+        code            
+        #{
+			#include<stdio.h>
+	  		const fvPatch& boundaryPatch = patch(); 
+          	const vectorField& Cf = boundaryPatch.Cf(); 
+			double data[500];
+			double scale, x0;
+          	FILE *fp=NULL;
+          	fp=fopen("./gradTB.txt","r");
+          	scale = 0.103527618 * 1e-3;
+          	x0 = 1.748973869e-3;//////////////////////////////!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+          	for(int i=0;i!=500;++i)
+          	{
+          		fscanf(fp, "%lf", &data[i]);
+          	}
+   			fclose(fp);			
+			
+          	forAll(Cf, faceI)
+          	{
+          		scalar x=boundaryPatch.Cf()[faceI].x();
+          		this->refGrad()[faceI]=data[(int)((x-x0)/scale)];
+          	}
+		#};
+    }
+    
+    leakyWallC
+    {
+		type            codedMixed;
+        refValue        uniform 0;
+        refGradient     uniform 0;
+        valueFraction   uniform 0;
+        name            gradTC;
+        code            
+        #{
+			#include<stdio.h>
+	  		const fvPatch& boundaryPatch = patch(); 
+          	const vectorField& Cf = boundaryPatch.Cf(); 
+			double data[500];
+			double scale, x0;
+          	FILE *fp=NULL;
+          	fp=fopen("./gradTC.txt","r");
+          	scale = 0.103527618 * 1e-3;
+          	x0 = 1.856153546e-3;
+          	for(int i=0;i!=500;++i)
+          	{
+          		fscanf(fp, "%lf", &data[i]);
+          	}
+   			fclose(fp);			
+			
+          	forAll(Cf, faceI)
+          	{
+          		scalar x=boundaryPatch.Cf()[faceI].x();
+          		this->refGrad()[faceI]=data[(int)((x-x0)/scale)];
+          	}
+		#};
+    }
+    
+    leakyWallD
+    {
+		type            codedMixed;
+        refValue        uniform 0;
+        refGradient     uniform 0;
+        valueFraction   uniform 0;
+        name            gradTD;
+        code            
+        #{
+			#include<stdio.h>
+	  		const fvPatch& boundaryPatch = patch(); 
+          	const vectorField& Cf = boundaryPatch.Cf(); 
+			double data[500];
+			double scale, x0;
+          	FILE *fp=NULL;
+          	fp=fopen("./gradTD.txt","r");
+          	scale = 0.103527618 * 1e-3;
+          	x0 = 3.785387731e-3;
+          	for(int i=0;i!=500;++i)
+          	{
+          		fscanf(fp, "%lf", &data[i]);
+          	}
+   			fclose(fp);			
+			
+          	forAll(Cf, faceI)
+          	{
+          		scalar x=boundaryPatch.Cf()[faceI].x();
+          		this->refGrad()[faceI]=data[(int)((x-x0)/scale)];
+          	}
+		#};
+    }    
+        
+    deadWall
+    {
+        type            zeroGradient;
+    }
+
+
+    frontAndBack
+    {
+        type            empty;
+    }
+}
+
+// ************************************************************************* //
