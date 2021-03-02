@@ -1,0 +1,3 @@
+gFoam.C
+
+EXE = /home/ziyan/OpenFOAM/OpenFOAM-v1712/applications/solvers/heatTransfer/gFoamEXE/gFoamEXE.out
